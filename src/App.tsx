@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Mail,
   Play,
@@ -210,6 +211,15 @@ export default function App() {
     Record<number, number>
   >({});
   const [modalSubIdx, setModalSubIdx] = useState<number>(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   const mainWidescreen = projects.slice(0, 3);
   const hiddenShortform = projects.slice(3, 6);
@@ -301,6 +311,14 @@ export default function App() {
         <div className="orb orb-3"></div>
       </div>
 
+      {/* Cursor Reactive Glow */}
+      <div 
+        className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.07), transparent 40%)`
+        }}
+      />
+
       {/* Fluid Bar Navigation Layout */}
       <nav id="nav-header" className="full-width-nav glass-panel-nav">
         <div className="logo text-gradient">GADOT.SHEM</div>
@@ -319,7 +337,12 @@ export default function App() {
       <div className="container">
         {/* Hero Section */}
         <header id="hero" className="hero">
-          <div className="hero-content">
+          <motion.div 
+            className="hero-content"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
             <h1>
               <span className="ios-selection">
                 <span className="ios-handle-start"></span>
@@ -334,13 +357,42 @@ export default function App() {
               and SaaS platforms, and retention-based editing for educational courses.
             </p>
             <div className="hero-actions">
-              <a href="mailto:gadot.shem@gmail.com" className="cta-btn">
-                Start a Project Thread
+              <a href="#work" className="cta-btn">
+                View Projects
               </a>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="hero-profile-stack">
+          <motion.div 
+            className="hero-profile-stack"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            onMouseMove={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left - rect.width / 2;
+              const y = e.clientY - rect.top - rect.height / 2;
+              e.currentTarget.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) scale3d(1.02, 1.02, 1.02)`;
+              const glow = e.currentTarget.querySelector('.avatar-glow') as HTMLElement;
+              if(glow) {
+                glow.style.transform = `translate(${x / 4}px, ${y / 4}px)`;
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+              e.currentTarget.style.transition = 'transform 0.5s ease-out';
+              const glow = e.currentTarget.querySelector('.avatar-glow') as HTMLElement;
+              if(glow) {
+                glow.style.transform = `translate(0px, 0px)`;
+                glow.style.transition = 'transform 0.5s ease-out';
+              }
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transition = 'transform 0.1s ease-out';
+              const glow = e.currentTarget.querySelector('.avatar-glow') as HTMLElement;
+              if(glow) glow.style.transition = 'transform 0.1s ease-out';
+            }}
+          >
             <div className="avatar-wrapper">
               <div className="avatar-glow"></div>
               <div className="avatar-glass-frame">
@@ -391,7 +443,7 @@ export default function App() {
                 <Linkedin className="w-5 h-5 text-white/90" />
               </a>
             </div>
-          </div>
+          </motion.div>
         </header>
 
         {/* Dynamic Highlight Metrics Row */}
@@ -445,12 +497,18 @@ export default function App() {
         </section>
 
         {/* Selected Portfolio Projects Section */}
-        <section id="work">
+        <motion.section 
+          id="work"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2>Featured Projects</h2>
 
           {/* Main Selected Widescreen (16:9 Format Grid) */}
           <div className="main-widescreen-grid">
-            {mainWidescreen.map((project) => {
+            {mainWidescreen.map((project, index) => {
               const hasSubVideos =
                 !!project.subVideos && project.subVideos.length > 0;
               const subIndex = hasSubVideos
@@ -475,11 +533,15 @@ export default function App() {
                 : project.thumbnailUrl;
 
               return (
-                <div
+                <motion.div
                   key={project.id}
-                  className="project-card glass-panel animate-fade-in cursor-pointer group relative"
+                  className="project-card glass-panel cursor-pointer group relative"
                   id={`project-${project.id}`}
                   onClick={() => handleCardClick(project)}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
                 >
                   <div className="video-container widescreen">
                     {/* Carousel Badge */}
@@ -588,7 +650,7 @@ export default function App() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -598,7 +660,7 @@ export default function App() {
             className="expanded-shortform-grid animate-fade-in"
             id="expanded-projects-section"
           >
-              {hiddenShortform.map((project) => {
+              {hiddenShortform.map((project, index) => {
                 const hasSubVideos =
                   !!project.subVideos && project.subVideos.length > 0;
                 const subIndex = hasSubVideos
@@ -623,11 +685,15 @@ export default function App() {
                   : project.thumbnailUrl;
 
                 return (
-                  <div
+                  <motion.div
                     key={project.id}
                     className="project-card glass-panel cursor-pointer group relative"
                     id={`project-${project.id}`}
                     onClick={() => handleCardClick(project)}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
                   >
                     <div className="video-container short-form">
                       {/* Carousel Badge */}
@@ -735,7 +801,7 @@ export default function App() {
                         ))}
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -751,10 +817,16 @@ export default function App() {
               Show All Projects
             </a>
           </div>
-        </section>
+        </motion.section>
 
         {/* Professional Experience Timeline Section */}
-        <section id="experience">
+        <motion.section 
+          id="experience"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2>Employment Experience</h2>
 
           <div className="experience-timeline">
@@ -798,10 +870,16 @@ export default function App() {
               Download Resume
             </a>
           </div>
-        </section>
+        </motion.section>
 
         {/* Dynamic Skill matrix & Linguistic capabilities cards */}
-        <section id="skills">
+        <motion.section 
+          id="skills"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <h2>Skills and Education</h2>
 
           <div className="grid-2">
@@ -890,7 +968,7 @@ export default function App() {
               </div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
         {/* Dynamic Static Footer Section */}
         <footer
