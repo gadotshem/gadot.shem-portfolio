@@ -322,6 +322,8 @@ h5,
 /* Glass CTA Link Button */
 .hero-actions {
   margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .cta-btn {
@@ -872,7 +874,7 @@ footer div p {
     margin-right: auto;
   }
   .hero-actions {
-    text-align: center;
+    justify-content: center;
   }
   .hero-profile-stack {
     order: -1;

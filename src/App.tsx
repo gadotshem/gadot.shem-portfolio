@@ -18,6 +18,8 @@ import {
 import profilePic from "./profile.jpg";
 // @ts-expect-error - Vite handles jpg asset loading natively
 import islaThumbnail from "./isla_thumbnail.jpg";
+// @ts-expect-error - Vite handles pdf asset loading natively
+import resumeUrl from "./Shem_Gadot_Resume.pdf";
 
 // Define TS Interfaces for Projects and Experience
 interface Project {
@@ -359,6 +361,9 @@ export default function App() {
             <div className="hero-actions">
               <a href="#work" className="cta-btn">
                 View Projects
+              </a>
+              <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="cta-btn !bg-white/10 hover:!bg-white/20 transition-colors">
+                View Resume
               </a>
             </div>
           </motion.div>
@@ -862,8 +867,8 @@ export default function App() {
                 : "Show More Employment History"}
             </button>
             <a
-              href="/Shem_Gadot_Resume.pdf"
-              download
+              href={resumeUrl}
+              download="Shem_Gadot_Resume.pdf"
               className="toggle-btn inline-flex items-center justify-center gap-2"
             >
               <Download className="w-4 h-4" />
