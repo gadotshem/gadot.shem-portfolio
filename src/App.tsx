@@ -20,6 +20,8 @@ import profilePic from "./profile.jpg";
 import islaThumbnail from "./isla_thumbnail.jpg";
 // @ts-expect-error - Vite handles pdf asset loading natively
 import resumeUrl from "./Shem_Gadot_Resume.pdf";
+import DotField from "./components/DotField";
+import ColorBends from "./components/ColorBends";
 
 // Define TS Interfaces for Projects and Experience
 interface Project {
@@ -213,15 +215,6 @@ export default function App() {
     Record<number, number>
   >({});
   const [modalSubIdx, setModalSubIdx] = useState<number>(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
 
   const mainWidescreen = projects.slice(0, 3);
   const hiddenShortform = projects.slice(3, 6);
@@ -313,14 +306,6 @@ export default function App() {
         <div className="orb orb-3"></div>
       </div>
 
-      {/* Cursor Reactive Glow */}
-      <div 
-        className="pointer-events-none fixed inset-0 z-0 transition-opacity duration-300"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(139, 92, 246, 0.07), transparent 40%)`
-        }}
-      />
-
       {/* Fluid Bar Navigation Layout */}
       <nav id="nav-header" className="full-width-nav glass-panel-nav">
         <div className="logo text-gradient">GADOT.SHEM</div>
@@ -339,8 +324,42 @@ export default function App() {
       <div className="container">
         {/* Hero Section */}
         <header id="hero" className="hero">
+          <div style={{ 
+            position: 'absolute', top: 0, left: '50%', width: '100vw', height: '100%', 
+            transform: 'translateX(-50%)', zIndex: 0,
+            maskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 50%, transparent 100%)'
+          }}>
+            <div style={{ position: 'absolute', inset: 0, opacity: 0.5, mixBlendMode: 'screen', pointerEvents: 'none' }}>
+              <ColorBends
+                colors={["#4c1d95", "#6d28d9", "#8b5cf6"]}
+                rotation={90}
+                speed={0.2}
+                scale={4}
+                frequency={2}
+                warpStrength={0.945}
+                mouseInfluence={0}
+                noise={0.15}
+                parallax={0.55}
+                iterations={1}
+                intensity={1.3}
+                bandWidth={5.5}
+                transparent
+                autoRotate={-4}
+              />
+            </div>
+            <DotField
+              dotRadius={1.5}
+              dotSpacing={14}
+              bulgeStrength={34}
+              glowRadius={120}
+              sparkle={false}
+              waveAmplitude={0}
+              glowColor="rgba(139, 92, 246, 0.15)"
+            />
+          </div>
           <motion.div 
-            className="hero-content"
+            className="hero-content relative z-10"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -369,37 +388,12 @@ export default function App() {
           </motion.div>
 
           <motion.div 
-            className="hero-profile-stack"
+            className="hero-profile-stack relative z-10"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            onMouseMove={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = e.clientX - rect.left - rect.width / 2;
-              const y = e.clientY - rect.top - rect.height / 2;
-              e.currentTarget.style.transform = `perspective(1000px) rotateX(${-y / 15}deg) rotateY(${x / 15}deg) scale3d(1.02, 1.02, 1.02)`;
-              const glow = e.currentTarget.querySelector('.avatar-glow') as HTMLElement;
-              if(glow) {
-                glow.style.transform = `translate(${x / 4}px, ${y / 4}px)`;
-              }
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-              e.currentTarget.style.transition = 'transform 0.5s ease-out';
-              const glow = e.currentTarget.querySelector('.avatar-glow') as HTMLElement;
-              if(glow) {
-                glow.style.transform = `translate(0px, 0px)`;
-                glow.style.transition = 'transform 0.5s ease-out';
-              }
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transition = 'transform 0.1s ease-out';
-              const glow = e.currentTarget.querySelector('.avatar-glow') as HTMLElement;
-              if(glow) glow.style.transition = 'transform 0.1s ease-out';
-            }}
           >
             <div className="avatar-wrapper">
-              <div className="avatar-glow"></div>
               <div className="avatar-glass-frame">
                 <img
                   src={profileImg}
@@ -1102,11 +1096,11 @@ export default function App() {
 
           return (
             <div
-              className="fixed inset-0 z-[1000] overflow-y-auto p-4 md:p-10 backdrop-blur-xl bg-black/90 animate-fade-in flex justify-center items-start md:items-center"
+              className="fixed inset-0 z-[1000] overflow-y-auto p-0 md:p-10 backdrop-blur-xl bg-black/90 animate-fade-in flex justify-center items-start md:items-center"
               onClick={() => setActiveProject(null)}
             >
               <div
-                className="w-[96vw] max-w-[1200px] glass-panel relative p-6 md:p-8 xl:p-10 my-auto bg-[#0a0814]/98 border border-white/10 rounded-[38px] shadow-2xl animate-scale-up z-[1005]"
+                className="w-full min-h-[100dvh] md:min-h-0 md:max-w-[1200px] glass-panel relative p-6 md:p-8 xl:p-10 my-auto bg-[#0a0814]/98 border-0 md:border md:border-white/10 rounded-none md:rounded-[32px] shadow-2xl animate-scale-up z-[1005]"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* Previous Button - Pinned outside left */}
@@ -1146,17 +1140,17 @@ export default function App() {
                 {/* Floating Close Button */}
                 <button
                   onClick={() => setActiveProject(null)}
-                  className="absolute top-6 right-6 z-50 p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white transition-all duration-200 border border-white/5"
+                  className="absolute top-4 right-4 md:top-6 md:right-6 z-[1050] p-2.5 rounded-full bg-black/60 hover:bg-white/10 text-slate-300 hover:text-white transition-all duration-200 border border-white/10 backdrop-blur-md"
                   aria-label="Close modal"
                 >
-                  <X className="w-4.5 h-4.5" />
+                  <X className="w-5 h-5 md:w-5 md:h-5" />
                 </button>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 xl:gap-10 items-center min-h-[400px] lg:min-h-[500px] xl:min-h-[600px] 2xl:min-h-[700px] w-full max-w-[1200px] mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-6 xl:gap-10 items-start md:items-center min-h-0 lg:min-h-[500px] xl:min-h-[600px] 2xl:min-h-[700px] w-full max-w-[1200px] mx-auto mt-8 md:mt-0">
                   {/* Left Panel: Video Display Section */}
-                  <div className="col-span-1 flex flex-row items-center justify-center lg:col-span-6 2xl:col-span-7 gap-4 md:gap-6 lg:gap-8 relative">
+                  <div className="col-span-1 flex flex-col md:flex-row items-center justify-center lg:col-span-6 2xl:col-span-7 gap-4 md:gap-6 lg:gap-8 relative w-full pt-4 md:pt-0 bg-transparent">
                     <div
-                      className={`video-container w-full relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-black ${isShortForm ? "short-form max-w-[260px] sm:max-w-[300px] lg:max-w-[320px] xl:max-w-[360px]" : "widescreen max-w-[640px] xl:max-w-[760px] 2xl:max-w-[854px] mx-auto"}`}
+                      className={`video-container w-full relative overflow-hidden border border-white/10 shadow-2xl bg-black rounded-2xl ${isShortForm ? "short-form max-w-[260px] sm:max-w-[300px] lg:max-w-[320px] xl:max-w-[360px]" : "widescreen lg:max-w-[640px] xl:max-w-[760px] 2xl:max-w-[854px] mx-auto"}`}
                     >
                       {currentModalType === "instagram" ? (
                         <iframe
@@ -1187,7 +1181,7 @@ export default function App() {
 
                     {/* Short Form Version Selection Thumbnails */}
                     {isShortForm && hasModalSubs && (
-                      <div className="flex flex-col gap-3 md:gap-4 shrink-0">
+                      <div className="flex flex-row md:flex-col flex-wrap justify-center gap-3 shrink-0 mt-4 md:mt-0">
                         {activeProject.subVideos!.map((sub, idx) => {
                           const ytId =
                             sub.type !== "instagram" && sub.type !== "drive"
@@ -1232,26 +1226,26 @@ export default function App() {
                   </div>
 
                   {/* Right Panel: Project Details & Metadata Info Sidebar */}
-                  <div className="col-span-1 lg:col-span-6 2xl:col-span-5 flex flex-col items-start justify-center text-left py-2 h-[500px] overflow-y-auto w-full space-y-10">
+                  <div className="col-span-1 lg:col-span-6 2xl:col-span-5 flex flex-col items-start justify-center text-left h-auto lg:h-[500px] lg:overflow-y-auto w-full space-y-6 md:space-y-10 pb-16 md:pb-0">
                     {/* Group 1: Title and Tags */}
-                    <div className="flex flex-col items-start w-full gap-3">
+                    <div className="flex flex-col items-start gap-4 w-full">
                       {/* Title Block */}
-                      <div className="flex flex-col items-start gap-1">
-                        <span className="text-[9px] sm:text-[10px] font-bold text-violet-400 uppercase tracking-[0.2em] block">
+                      <div className="flex flex-col items-start gap-1.5 w-full">
+                        <span className="text-[10px] sm:text-[11px] font-bold text-violet-400 uppercase tracking-[0.2em] block">
                           Project {currentIndex + 1} of {projects.length}
                         </span>
-                        <h3 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white font-display tracking-tight leading-[1.05]">
+                        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white font-display tracking-tight leading-snug md:leading-[1.05]">
                           {currentModalTitle}
                         </h3>
                         {variationTitle && (
-                          <span className="text-lg md:text-xl font-bold text-violet-300 mt-1">
+                          <span className="text-base md:text-xl font-bold text-violet-300 mt-1">
                             {variationTitle}
                           </span>
                         )}
                       </div>
 
                       {/* Metadata Tags List */}
-                      <div className="flex flex-wrap gap-2 mt-2 mb-1">
+                      <div className="flex flex-wrap gap-2 w-full">
                         {currentModalTags.map((tag, idx) => (
                           <span
                             key={idx}
@@ -1264,19 +1258,19 @@ export default function App() {
                     </div>
 
                     {/* Group 2: Description Paragraph */}
-                    <div className="flex flex-col items-start w-full gap-2">
-                      <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block font-display">
+                    <div className="flex flex-col items-start gap-2.5 w-full">
+                      <span className="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em] block font-display">
                         Project Overview
                       </span>
-                      <p className="text-[13px] md:text-sm text-slate-300 leading-relaxed font-sans max-w-[480px]">
+                      <p className="text-sm md:text-[15px] text-slate-300 leading-relaxed font-sans w-full max-w-[480px]">
                         {currentModalDesc}
                       </p>
                     </div>
 
                     {/* Group 4: Timeline Versions Switcher Stack (Playlist Style) */}
                     {hasModalSubs && !isShortForm && (
-                      <div className="flex flex-col items-start w-full gap-3">
-                        <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] block font-display">
+                      <div className="flex flex-col items-start w-full gap-3 mt-4">
+                        <span className="text-[10px] md:text-[11px] font-bold text-slate-500 uppercase tracking-[0.2em] block font-display">
                           Hook Editions & Variations
                         </span>
                         <div className="flex flex-col gap-1.5 w-full max-h-[140px] overflow-y-auto pr-1">
@@ -1308,45 +1302,45 @@ export default function App() {
                     )}
 
                     {/* Group 5: Watch CTA Action Button */}
-                    <div className="w-full flex justify-start pt-2">
+                    <div className="flex justify-start w-full mt-4 md:mt-0">
                       {currentModalType === "instagram" ? (
                         <a
                           href={currentModalLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-center px-6 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-xs uppercase tracking-wider text-white gap-2 transition-all shadow-lg active:scale-95 focus:outline-none"
+                          className="flex items-center justify-center rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 font-bold text-xs md:text-sm uppercase tracking-wider text-white gap-2 transition-all shadow-lg active:scale-95 focus:outline-none w-full md:w-auto px-6 py-3.5"
                         >
-                          <Instagram className="w-4 h-4 text-white" /> Open
+                          <Instagram className="w-4 h-4 md:w-4 md:h-4 text-white" /> Open
                           Instagram Reel{" "}
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <ExternalLink className="w-4 h-4" />
                         </a>
                       ) : currentModalType === "drive" ? (
                         <a
                           href={currentModalLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-center px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 font-bold text-xs uppercase tracking-wider text-white gap-2 transition-all shadow-lg active:scale-95 focus:outline-none"
+                          className="flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-500 font-bold text-xs md:text-sm uppercase tracking-wider text-white gap-2 transition-all shadow-lg active:scale-95 focus:outline-none w-full md:w-auto px-6 py-3.5"
                         >
                           <Play className="w-4 h-4 fill-white text-white" />{" "}
                           View Google Drive Master{" "}
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <ExternalLink className="w-4 h-4" />
                         </a>
                       ) : (
                         <a
                           href={getYoutubeWatchUrl(currentModalLink)}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-center px-6 py-3 rounded-full bg-red-600 hover:bg-red-500 font-bold text-xs uppercase tracking-wider text-white gap-2 transition-all shadow-lg active:scale-95 focus:outline-none"
+                          className="flex items-center justify-center rounded-full bg-red-600 hover:bg-red-500 font-bold text-xs md:text-sm uppercase tracking-wider text-white gap-2 transition-all shadow-lg active:scale-95 focus:outline-none w-full md:w-auto px-6 py-3.5"
                         >
                           <Youtube className="w-5 h-5 text-white" /> Watch on
                           YouTube{" "}
-                          <ExternalLink className="w-3.5 h-3.5" />
+                          <ExternalLink className="w-4 h-4" />
                         </a>
                       )}
                     </div>
 
                     {/* Project Navigation Counter (Mobile Fallbacks) */}
-                    <div className="pt-4 w-full max-w-md flex md:hidden justify-between items-center text-slate-400">
+                    <div className="pt-6 w-full max-w-md flex md:hidden justify-between items-center text-slate-400 mt-4 border-t border-white/5">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();

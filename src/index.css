@@ -229,9 +229,15 @@ h5,
 .container {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   position: relative;
   z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 2rem;
+  }
 }
 
 .text-gradient {
@@ -247,6 +253,7 @@ h5,
   gap: 5rem;
   align-items: center;
   padding: 6rem 0 5rem 0;
+  position: relative;
 }
 
 .hero-content {
@@ -371,17 +378,6 @@ h5,
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.avatar-glow {
-  position: absolute;
-  width: 120%;
-  height: 120%;
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-  border-radius: 40px;
-  filter: blur(50px);
-  opacity: 0.32;
-  z-index: 1;
 }
 
 .avatar-glass-frame {
