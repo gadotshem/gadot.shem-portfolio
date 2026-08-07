@@ -1,8 +1,6 @@
 {
-  "name": "Remix: Shem Andre I. Gadot - Video Editing Portfolio",
-  "description": "Professional video editing and motion graphics portfolio for Shem Andre I. Gadot including project showcases and experience history.",
+  "name": "Motion & Video Portfolio",
+  "description": "Apple-inspired clean UI portfolio showcasing motion graphics, video editing, 3D titling, and visual effects with video hover autoplay, interactive frame scrubber, VFX split comparison, and project booking drawer.",
   "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
