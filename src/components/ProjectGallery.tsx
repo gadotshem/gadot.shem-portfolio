@@ -19,6 +19,22 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
   
   const videoRefs = useRef<{ [key: string]: HTMLVideoElement | null }>({});
 
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>, videoUrl?: string) => {
+    const target = e.currentTarget;
+    if (!videoUrl) return;
+    const match = videoUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|&v=)([^#&?]*).*/);
+    const id = match && match[2].length === 11 ? match[2] : null;
+    if (id) {
+      if (target.src.includes('maxresdefault')) {
+        target.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      } else if (target.src.includes('hqdefault')) {
+        target.src = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+      } else {
+        target.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      }
+    }
+  };
+
   const categories: { id: Category; label: string; count: number }[] = [
     { id: 'all', label: 'All Projects', count: PROJECTS.length },
     { id: 'personal-projects', label: 'Personal Projects', count: PROJECTS.filter(p => p.category === 'personal-projects').length },
@@ -106,6 +122,7 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
                     src={project.thumbnailUrl}
                     alt={project.title}
                     referrerPolicy="no-referrer"
+                    onError={(e) => handleImgError(e, project.videoUrl)}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />
 
@@ -200,6 +217,7 @@ export const ProjectGallery: React.FC<ProjectGalleryProps> = ({ onSelectProject 
                     src={project.thumbnailUrl}
                     alt={project.title}
                     referrerPolicy="no-referrer"
+                    onError={(e) => handleImgError(e, project.videoUrl)}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-[#212529]/40 flex items-center justify-center">

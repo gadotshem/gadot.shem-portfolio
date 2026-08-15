@@ -20,6 +20,22 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
 }) => {
   const [activeClipIndex, setActiveClipIndex] = useState(0);
 
+  const handleImgError = (e: React.SyntheticEvent<HTMLImageElement, Event>, videoUrl?: string) => {
+    const target = e.currentTarget;
+    if (!videoUrl) return;
+    const match = videoUrl.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|shorts\/|watch\?v=|&v=)([^#&?]*).*/);
+    const id = match && match[2].length === 11 ? match[2] : null;
+    if (id) {
+      if (target.src.includes('maxresdefault')) {
+        target.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      } else if (target.src.includes('hqdefault')) {
+        target.src = `https://img.youtube.com/vi/${id}/mqdefault.jpg`;
+      } else {
+        target.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+      }
+    }
+  };
+
   // Reset video & carousel state when project changes
   useEffect(() => {
     setActiveClipIndex(0);
@@ -180,6 +196,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                             <img
                               src={clip.thumbnailUrl || project.thumbnailUrl}
                               alt={clip.title}
+                              onError={(e) => handleImgError(e, clip.videoUrl || project.videoUrl)}
                               className="w-full h-full object-cover"
                               referrerPolicy="no-referrer"
                             />
@@ -290,6 +307,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = ({
                           <img
                             src={clip.thumbnailUrl || project.thumbnailUrl}
                             alt={clip.title}
+                            onError={(e) => handleImgError(e, clip.videoUrl || project.videoUrl)}
                             className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
                           />
