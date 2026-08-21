@@ -11,8 +11,8 @@ export const PROJECTS: Project[] = [
     resolution: '4K UHD',
     fps: 60,
     software: ['After Effects', 'Figma', 'Illustrator', 'Motion Design', 'Saas Animations'],
-    thumbnailUrl: 'https://img.youtube.com/vi/Nan6mQxk7_c/maxresdefault.jpg',
-    videoUrl: 'https://youtu.be/Nan6mQxk7_c',
+    thumbnailUrl: 'https://img.youtube.com/vi/udtu4XD-fKg/maxresdefault.jpg',
+    videoUrl: 'https://youtu.be/udtu4XD-fKg',
     description: 'Product Launch Video — Ongoing Draft for KitaTracker.com showcasing intuitive interface animations, dynamic feature breakdowns, and sleek SaaS product presentation.',
     role: 'Lead Editor & Motion Graphic Designer',
     impactMetrics: [],
@@ -259,10 +259,10 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
 
 export const EXPERIENCES: ExperienceItem[] = [
   {
-    year: '2026 - Present',
+    year: 'June 2026',
     role: 'Lead Motion Designer',
-    company: 'KITATRACKER.COM',
-    type: 'SaaS Motion Design & Launch',
+    company: 'KITATRACKER',
+    type: 'B2B SaaS Platform Product Launch',
     description: 'Directing end-to-end visual design: Motion graphics, kinetic typography, and visual storytelling for a B2B SaaS platform product launch.',
     highlights: [
       'Directing end-to-end visual design: Motion graphics, kinetic typography, and visual storytelling for a B2B SaaS platform product launch',
@@ -272,7 +272,7 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     year: 'March 2026 - May 2026',
-    role: 'Project Based Video Editor',
+    role: 'Lead Motion Designer',
     company: 'WAFFLES AND WHATNOT',
     type: 'Course & Educational Series',
     description: 'Part of a team in creating an 8-chapter course, with over 80 long-form videos for WAWN University, focusing on core values, operational methods, accounting, and restaurant management.',
@@ -284,7 +284,7 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     year: 'November 2025 - January 2026',
-    role: 'Video Editor / Graphic Designer',
+    role: 'Lead Video Editor',
     company: 'VONUBABY',
     type: 'Meta Ads & E-Commerce',
     description: 'Edited high-performing ads for Meta optimized to gain retention, site-visits and revenue. Designed graphics and images for Google PMAX and Amazon listings.',
@@ -296,7 +296,7 @@ export const EXPERIENCES: ExperienceItem[] = [
   },
   {
     year: 'July 2025 - October 2025',
-    role: 'Motion Graphics Designer',
+    role: 'Lead Motion Designer',
     company: 'BRANDED AND BUILT',
     type: 'YouTube & Motion Graphics',
     description: 'Boosted viewer retention by 20% by creating animated explainers that capture audience focus. Created social media lower thirds and YouTube outros.',
@@ -304,18 +304,6 @@ export const EXPERIENCES: ExperienceItem[] = [
       'Boosted viewer retention by 20% by creating animated explainers that capture audience’s attention',
       'Created social media lower thirds that increased subscriber count by 10% per video',
       'Designed YouTube outros that drove 15% increase in engagement on various social media platforms'
-    ]
-  },
-  {
-    year: 'July 2025 - September 2025',
-    role: 'Video Editor Contractor',
-    company: 'CANINESCIENCE.CO',
-    type: 'Brand Relaunch Series',
-    description: 'Edited a 4-video series for a brand relaunch, ensuring brand alignment using on-trend video editing styles, animated captions, and color grading.',
-    highlights: [
-      'Edited a 4-video series for a brand relaunch, ensuring brand alignment using on-trend video editing styles',
-      'Created animated captions and motion graphics that fit well with the brand identity, further boosting audience engagement',
-      'Leveraged color grading techniques to optimize underexposed assets, ensuring seamless visual storytelling and brand consistency.'
     ]
   }
 ];

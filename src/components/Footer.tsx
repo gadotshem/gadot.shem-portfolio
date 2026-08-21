@@ -90,8 +90,8 @@ export const Footer: React.FC = () => {
             </h4>
             <ul className="space-y-2 text-xs">
               <li><a href="#projects" className="text-[#495057] hover:text-[#212529] transition-colors">Project Gallery</a></li>
-              <li><a href="#vfx-breakdown" className="text-[#495057] hover:text-[#212529] transition-colors">Color Grade Split</a></li>
-              <li><a href="#experience" className="text-[#495057] hover:text-[#212529] transition-colors">Career Timeline</a></li>
+              <li><a href="#experience" className="text-[#495057] hover:text-[#212529] transition-colors">Career Timeline & Skills</a></li>
+              <li><a href="#vfx-breakdown" className="text-[#495057] hover:text-[#212529] transition-colors">Playground (Color Grade Split)</a></li>
               <li><a href="#contact" className="text-[#495057] hover:text-[#212529] transition-colors">Get in Touch</a></li>
             </ul>
           </div>

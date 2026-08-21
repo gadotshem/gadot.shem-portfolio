@@ -61,7 +61,7 @@ export default function App() {
   // Track active section on scroll
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['hero', 'projects', 'vfx-breakdown', 'experience', 'contact'];
+      const sections = ['hero', 'projects', 'experience', 'vfx-breakdown', 'contact'];
       const scrollPosition = window.scrollY + 200;
 
       for (const sectionId of sections) {
@@ -115,13 +115,13 @@ export default function App() {
           onSelectProject={(project) => setSelectedProject(project)}
         />
 
-        {/* VFX Color Grade Split Comparison */}
-        <VfxComparison />
-
         {/* Experience & Skills */}
         <Experience
           onViewResume={downloadResumePdf}
         />
+
+        {/* VFX Color Grade Split Comparison / Playground */}
+        <VfxComparison />
 
         {/* Contact CTA Section */}
         <ContactCTA />

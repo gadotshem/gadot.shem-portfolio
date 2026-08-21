@@ -15,16 +15,15 @@ export const Experience: React.FC<ExperienceProps> = ({ onViewResume }) => {
   };
 
   const coreCompetencies = [
+    'Cinematic Direction',
+    'Motion Design',
     'Sound Design',
     'Color Grading',
     'Kinetic Typography',
-    'Cinematic Direction',
-    'Motion Graphics',
-    'Retention Optimization',
   ];
 
   const languages = [
-    'English (C2 Professional)',
+    'English (C2)',
     'Filipino (Native)',
     'Cebuano (Native)',
   ];
@@ -71,21 +70,6 @@ export const Experience: React.FC<ExperienceProps> = ({ onViewResume }) => {
           </div>
           <span className="absolute -bottom-7 opacity-0 group-hover/item:opacity-100 transition-opacity bg-slate-900 text-white text-[10px] font-mono px-2 py-0.5 rounded shadow whitespace-nowrap pointer-events-none z-10">
             Photoshop
-          </span>
-        </div>
-      ),
-    },
-    {
-      id: 'illustrator',
-      name: 'Adobe Illustrator',
-      tag: 'Ai',
-      icon: (
-        <div className="group/item relative flex flex-col items-center">
-          <div className="w-12 h-12 rounded-2xl bg-[#330000] border border-[#8a3000] flex items-center justify-center text-[#ff9a00] font-extrabold text-lg shadow-sm group-hover/item:scale-110 transition-transform cursor-pointer font-sans">
-            Ai
-          </div>
-          <span className="absolute -bottom-7 opacity-0 group-hover/item:opacity-100 transition-opacity bg-slate-900 text-white text-[10px] font-mono px-2 py-0.5 rounded shadow whitespace-nowrap pointer-events-none z-10">
-            Illustrator
           </span>
         </div>
       ),
@@ -261,7 +245,7 @@ export const Experience: React.FC<ExperienceProps> = ({ onViewResume }) => {
                   Mindanao State University - Iligan Institute of Technology
                 </h4>
                 <p className="text-xs sm:text-sm font-medium text-[#495057]">
-                  Undergraduate Civil Engineering (2021)
+                  Undergraduate Civil Engineering (2021–2024) • Iligan City, Philippines
                 </p>
               </div>
             </div>
